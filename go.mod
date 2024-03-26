@@ -2,7 +2,11 @@ module auto_updating_testing
 
 go 1.22
 
-require github.com/hashicorp/go-getter v1.7.3
+require (
+	github.com/go-chi/chi/v5 v5.0.12
+	github.com/hashicorp/go-getter v1.7.3
+	github.com/robfig/cron/v3 v3.0.1
+)
 
 require (
 	cloud.google.com/go v0.104.0 // indirect
