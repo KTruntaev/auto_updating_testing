@@ -5,12 +5,19 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5" // router
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/robfig/cron/v3"
-	"net/http"
 	"os"
 
+	//"github.com/go-git/go-git/v5" // with go modules enabled (GO111MODULE=on or outside GOPATH)
 	getter "github.com/hashicorp/go-getter"
+	"github.com/robfig/cron/v3"
+	"net/http"
 )
+
+func CheckErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
 
 func main() {
 	client := &getter.Client{
@@ -29,6 +36,12 @@ func main() {
 		Getters: map[string]getter.Getter{
 			"git": &getter.GitGetter{},
 		},
+	}
+
+	//download the files
+	if err := client.Get(); err != nil {
+		fmt.Fprintf(os.Stderr, "Error getting path %s: %v", client.Src, err)
+		os.Exit(1)
 	}
 
 	// scheduler ! //////////////////////////////////////////////
